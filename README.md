@@ -1,62 +1,146 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# E-Commerce Platform with Medusa.js
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This project consists of two storefronts sharing a common Medusa.js backend:
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+1. **Traditional E-Commerce Storefront**: A standard e-commerce platform where customers can browse and purchase specific products.
+2. **Mystery Box Store**: An innovative platform where customers input a budget, and the system selects random products within that budget.
 
-## Compatibility
+## Project Structure
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`. 
+```
+├── .env                 # Environment variables
+├── medusa-config.ts     # Medusa.js configuration
+├── src/                 # Medusa.js backend source code
+├── storefront/          # Traditional e-commerce frontend (Next.js)
+└── mystery-box/         # Mystery box store frontend (Next.js)
+```
 
-## Getting Started
+## Tech Stack
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+- **Backend**: Medusa.js (Node.js e-commerce framework)
+- **Database**: PostgreSQL
+- **Frontend**: Next.js with React
+- **Styling**: Tailwind CSS
+- **Authentication**: Next-Auth with Medusa.js
+- **Payment Processing**: Stripe
+- **Animations**: Framer Motion
+- **3D Graphics**: Three.js
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+## Design Specifications
 
-## What is Medusa
+- **Color Scheme**: Lilac, white, and gold accents
+- **Visual Elements**: Subtle animations and high-quality images, including 3D visuals
+- **Layout**: Clean and minimalistic design for intuitive navigation
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+## Features
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+### Shared Features
+- Product catalog management
+- Order processing
+- Customer data management
+- Secure payment processing with Stripe
 
-## Community & Contributions
+### Traditional Storefront
+- Product browsing and filtering
+- Product detail pages
+- Shopping cart functionality
+- Optional user accounts
+- Guest checkout option
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+### Mystery Box Store
+- Budget-based product selection
+- Required user authentication
+- Surprise element (products revealed only upon delivery)
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+## Setup Instructions
 
-## Other channels
+### Prerequisites
+- Node.js (v20 or later)
+- PostgreSQL
+- Redis
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+### Backend Setup
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Configure environment variables:
+   Make sure the `.env` file is properly configured with your database, Redis, and Stripe credentials.
+
+4. Start the Medusa server:
+   ```
+   npm run dev
+   ```
+
+### Frontend Setup
+
+#### Traditional Storefront
+
+1. Navigate to the storefront directory:
+   ```
+   cd storefront
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+4. Access the storefront at `http://localhost:3000`
+
+#### Mystery Box Store
+
+1. Navigate to the mystery-box directory:
+   ```
+   cd mystery-box
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+4. Access the mystery box store at `http://localhost:3001`
+
+## Authentication Implementation
+
+### Mystery Box Store
+- Account creation and login required before making purchases
+- Secure authentication using Medusa.js routes
+
+### Traditional Storefront
+- Optional account creation
+- Guest checkout available
+- Account creation option during or after checkout
+
+## Deployment
+
+### Frontend
+- Deploy Next.js applications to Vercel or Netlify
+
+### Backend
+- Deploy Medusa.js backend to Render or Heroku
+
+## Additional Considerations
+
+- **Security**: HTTPS, secure cookies, regular dependency updates
+- **Performance**: Optimized images, caching, lazy loading
+- **Accessibility**: Adherence to accessibility standards

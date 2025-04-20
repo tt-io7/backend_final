@@ -23,4 +23,14 @@ build
 !.yarn/sdks
 !.yarn/versions
 
-.medusa
+.medusamedusa-admin/
+storefront-starter/
+
+# Exclude embedded git repositories
+medusa-admin/
+storefront-starter/
+storefront-new/
+storefront/
+
+# Exclude node_modules in storeee
+storeee/node_modules/
