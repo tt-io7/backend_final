@@ -1,0 +1,12 @@
+-:Thumbs.db
+-:desktop.ini
+-:~*
+-:.*
+-:*~.*
+-:*.crdownload
+-:*.sb-????????-??????
+-:*.tmp
+-p:local-backend/node_modules/esbuild/bin/esbuild
+-p:local-backend/node_modules/@esbuild/darwin-arm64/bin/esbuild
+-p:storefront-starter/node_modules/esbuild/bin/esbuild
+-p:storefront-starter/node_modules/@esbuild/darwin-arm64/bin/esbuild
