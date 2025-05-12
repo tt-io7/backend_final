@@ -17,6 +17,7 @@ module.exports = defineConfig({
     },
     redisUrl: process.env.REDIS_URL,
     databaseUrl: process.env.DATABASE_URL,
+    workerMode: process.env.MEDUSA_WORKER_MODE as "shared" | "worker" | "server",
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
@@ -24,6 +25,10 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET || "supersecret123456789",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret123456789",
     }
+  },
+  admin: {
+    disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
+    backendUrl: process.env.MEDUSA_BACKEND_URL,
   },
   featureFlags: {
     eventBusRedisModule: true,
