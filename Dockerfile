@@ -1,43 +1,33 @@
-FROM node:20.6-alpine
+FROM node:20.10
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files for install
+# Copy package definition files for efficient caching
 COPY package*.json ./
-COPY .npmrc ./
 
-# Add build dependencies and tools
-RUN apk add --no-cache python3 make g++ git curl bash
+# Install dependencies
+RUN npm install
 
-# Set npm config
-RUN npm config set platform linux && \
-    npm config set architecture x64 && \
-    npm config set omit optional
-
-# Install dependencies with platform-specific fixes
-RUN npm ci --no-optional || npm install --no-audit --no-optional
-
-# Install build tools locally instead of globally
-RUN npm install --no-save @swc/cli @swc/core ts-node typescript
-
-# Copy all files
+# Copy source code
 COPY . .
 
-# Make scripts executable
-RUN chmod +x build.sh
-RUN chmod +x start.sh
+# Build the application
+RUN npm run build
 
-# Run build script instead of direct build command
-RUN ./build.sh
+# Move to the built directory and install production dependencies
+WORKDIR /app/.medusa/server
+RUN npm install
 
 # Set environment
 ENV NODE_ENV=production
 ENV PORT=9000
 ENV HOST=0.0.0.0
+ENV NPM_CONFIG_OPTIONAL=false
+ENV NPM_CONFIG_IGNORE_SCRIPTS=true
 
 # Expose port
 EXPOSE 9000
 
-# Set the command to run (with fallback to script if the package.json command fails)
-CMD ["sh", "-c", "npm run railway:start || ./start.sh"] 
+# Start command
+CMD ["npm", "run", "start"] 

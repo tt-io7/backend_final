@@ -1,8 +1,11 @@
-[phases.setup]
-aptPkgs = ["libicu-dev"]
+[build]
+builder = "NIXPACKS"
 
-[phases.install]
-cmds = ["npm ci --omit=dev"]
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs", "npm"]
+
+[build.nixpacksPlan.phases.install]
+cmds = ["npm install --no-optional --ignore-scripts --no-fund --no-audit"]
 
 [phases.build]
 cmds = ["npm run build"]

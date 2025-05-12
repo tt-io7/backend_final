@@ -2,11 +2,24 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm run build"
+    "nixpacksPlan": {
+      "phases": {
+        "setup": {
+          "nixPkgs": ["nodejs", "npm"]
+        },
+        "install": {
+          "cmds": ["npm install --no-optional --ignore-scripts --no-fund --no-audit"]
+        },
+        "build": {
+          "cmds": ["npm run build"]
+        }
+      }
+    }
   },
   "deploy": {
-    "numReplicas": 1,
-    "startCommand": "npm run railway:start",
+    "startCommand": "cd .medusa/server && npm install && npm run start",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
