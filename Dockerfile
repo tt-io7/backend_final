@@ -1,19 +1,18 @@
 # Use Node.js LTS version
-FROM node:20-alpine
+FROM node:20
 
-# Install necessary build tools for native dependencies
-RUN apk add --no-cache python3 make g++ git
-
+# Set working directory
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package*.json ./
 
-# Install dependencies with more fault-tolerant settings
-RUN npm config set legacy-peer-deps true && \
-    npm config set fetch-retry-mintimeout 20000 && \
-    npm config set fetch-retry-maxtimeout 120000 && \
-    npm install --no-fund
+# Create .npmrc with necessary settings
+RUN echo "legacy-peer-deps=true" > .npmrc && \
+    echo "engine-strict=false" >> .npmrc
+
+# Install dependencies with basic npm install
+RUN npm install
 
 # Copy the rest of the application
 COPY . .
@@ -22,11 +21,11 @@ COPY . .
 RUN npm run build
 
 # Set environment variables
-ENV NODE_ENV=production 
+ENV NODE_ENV=production
 ENV PORT=9000
 
 # Expose the port the app runs on
 EXPOSE 9000
 
-# Run migrations and start the application
-CMD ["sh", "-c", "npm run predeploy && npm run start"] 
+# Run the application using our railway:start script
+CMD npm run railway:start 

@@ -6,7 +6,7 @@
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "npm run predeploy && npm run start",
+    "startCommand": "npm run railway:start",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
