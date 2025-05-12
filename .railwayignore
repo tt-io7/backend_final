@@ -1,0 +1,32 @@
+# Git files
+.git
+.gitignore
+.gitmodules
+
+# Logs
+*.log
+combined.log
+medusa.log
+
+# Large directories
+storefront/
+storefront-new/
+storefront-starter/
+mystery-box/
+storeee/node_modules/
+
+# Embedded git repositories
+medusa-admin/
+
+# Development and test files
+*-test.js
+*-dev.js
+*.test.js
+*.spec.js
+integration-tests/
+
+# Large artifacts
+dist/
+.cache/
+.roo/
+.vscode/ 

@@ -1,0 +1,14 @@
+[phases.setup]
+aptPkgs = ["libicu-dev"]
+
+[phases.install]
+cmds = ["npm ci --omit=dev"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run predeploy && npm run start"
+
+[variables]
+NODE_ENV = "production" 
