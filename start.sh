@@ -7,6 +7,14 @@ node /app/health.js &
 # Wait a moment for health service to start
 sleep 5
 
+# Create necessary directories in the built output
+echo "Creating necessary directories..."
+mkdir -p /app/.medusa/server/src/utils
+
+# Copy the logger.js file to the built directory
+echo "Copying logger file..."
+cp /app/src/utils/logger.js /app/.medusa/server/src/utils/
+
 # Navigate to the built directory
 cd .medusa/server || { echo "Failed to cd into .medusa/server"; exit 1; }
 

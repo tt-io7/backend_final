@@ -20,10 +20,26 @@ COPY package*.json ./
 
 # Install dependencies with reliable flags
 RUN npm install --no-audit
-RUN npm install @medusajs/medusa-config --no-save || echo "Failed to install medusa-config, will try alternative approach"
+RUN npm install @medusajs/medusa-config winston --no-save || echo "Failed to install dependencies, will try alternative approach"
 
 # Copy project files
 COPY . .
+
+# Ensure src/utils directory exists
+RUN mkdir -p src/utils
+RUN [ -f src/utils/logger.js ] || echo 'const winston = require("winston"); \
+const logger = winston.createLogger({ \
+  level: "info", \
+  format: winston.format.combine( \
+    winston.format.timestamp(), \
+    winston.format.json() \
+  ), \
+  transports: [ \
+    new winston.transports.Console(), \
+    new winston.transports.File({ filename: "combined.log" }) \
+  ] \
+}); \
+module.exports = logger;' > src/utils/logger.js
 
 # Ensure scripts have correct permissions
 RUN chmod +x health.js
@@ -34,6 +50,10 @@ RUN npx medusa migrations run || echo "Migration failed, will try during startup
 
 # Build with generous memory allocation and error handling
 RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build || echo "Build completed with warnings"
+
+# Create necessary directories in the built output
+RUN mkdir -p .medusa/server/src/utils
+RUN cp src/utils/logger.js .medusa/server/src/utils/ || echo "Logger file copy failed"
 
 # Expose port
 EXPOSE 9000
