@@ -1,3 +1,6 @@
 [submodule "storefront-starter"]
 	path = storefront-starter
 	url = https://github.com/medusajs/nextjs-starter-medusa.git
+[submodule "medusa-admin"]
+	path = medusa-admin
+	url = https://github.com/medusajs/admin.git
