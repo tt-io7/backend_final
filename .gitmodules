@@ -1,0 +1,3 @@
+[submodule "storefront-starter"]
+	path = storefront-starter
+	url = https://github.com/medusajs/nextjs-starter-medusa.git
