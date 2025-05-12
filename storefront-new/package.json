@@ -1,0 +1,43 @@
+{
+  "name": "storefront-new",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:webpack": "next dev",
+    "dev:turbo": "next dev --turbo",
+    "build": "next build",
+    "build:no-lint": "ESLINT_SKIP=true next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@medusajs/js-sdk": "^2.7.0",
+    "@medusajs/medusa-js": "^6.1.10",
+    "dotenv": "^16.5.0",
+    "framer-motion": "^10.18.0",
+    "next": "14.0.3",
+    "node-fetch": "^2.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-responsive": "^9.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.3",
+    "postcss": "^8.4.31",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-env": "^10.1.5",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5"
+  }
+}

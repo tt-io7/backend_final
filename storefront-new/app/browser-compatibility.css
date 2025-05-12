@@ -1,0 +1,84 @@
+/**
+ * Browser Compatibility CSS
+ *
+ * This file contains specific fixes for browsers
+ * to ensure consistent rendering across all platforms.
+ * Keep this minimal unless specific browser bugs are identified.
+ */
+
+/* Fix for font rendering */
+body, input, button, textarea, select {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix for potential transform issues */
+.transform {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Basic transition fix */
+.transition, .transition-all, .transition-colors, .transition-opacity, .transition-shadow, .transition-transform {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition-duration: 150ms;
+  transition-duration: 150ms;
+}
+
+/* Add other specific browser fixes below only if necessary */
+
+/* Force flexbox to work properly */
+.flex {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flex-col {
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-direction: column !important;
+  -webkit-flex-direction: column !important;
+  flex-direction: column !important;
+}
+
+.flex-row {
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-direction: row !important;
+  -webkit-flex-direction: row !important;
+  flex-direction: row !important;
+}
+
+/* Force grid to work properly */
+.grid {
+  display: -ms-grid !important;
+  display: grid !important;
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  .flex {
+    display: flex !important;
+  }
+  .grid {
+    display: grid !important;
+  }
+}
+
+/* Safari-specific fixes */
+@media not all and (min-resolution:.001dpcm) {
+  @supports (-webkit-appearance:none) {
+    .flex {
+      display: -webkit-flex !important;
+      display: flex !important;
+    }
+    .grid {
+      display: grid !important;
+    }
+  }
+}
