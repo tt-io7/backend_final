@@ -25,11 +25,9 @@ build
 !.yarn/versions
 
 .medusamedusa-admin/
-storefront-starter/
 
 # Exclude embedded git repositories
 medusa-admin/
-storefront-starter/
 storefront-new/
 storefront/
 
