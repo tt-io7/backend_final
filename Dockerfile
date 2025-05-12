@@ -38,9 +38,9 @@ RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build || echo "Build complete
 # Expose port
 EXPOSE 9000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+# Health check with increased timeout and start period
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=5 \
   CMD curl -f http://localhost:9000/health || exit 1
 
 # Start command using the shell script
-CMD ["sh", "-c", "node health.js & ./start.sh"] 
+CMD ["sh", "-c", "./start.sh"] 
