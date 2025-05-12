@@ -1,21 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
-# Set environment variables
-export NODE_ENV=production
+# Navigate to the built directory
+cd .medusa/server || { echo "Failed to cd into .medusa/server"; exit 1; }
 
-# Check if built directory exists
-if [ -d ".medusa/server" ]; then
-  echo "Found built Medusa application, using it..."
-  cd .medusa/server
-  npm install
-else
-  echo "No built directory found, running from root..."
-fi
+# Install dependencies
+echo "Installing dependencies..."
+npm install
 
-# Ensure migrations run before starting
-echo "Running database migrations..."
-npx medusa db:migrate
+# Run migrations
+echo "Running migrations..."
+npm run predeploy
 
-# Start the application
+# Start the Medusa server
 echo "Starting Medusa server..."
-npx medusa start 
+npm run start 

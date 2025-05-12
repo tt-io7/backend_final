@@ -25,8 +25,9 @@ RUN npm install @medusajs/medusa-config --no-save || echo "Failed to install med
 # Copy project files
 COPY . .
 
-# Ensure medusa-config.js exists and has correct permissions
+# Ensure scripts have correct permissions
 RUN chmod +x health.js
+RUN chmod +x start.sh
 
 # Perform database migrations before build
 RUN npx medusa migrations run || echo "Migration failed, will try during startup"
@@ -41,5 +42,5 @@ EXPOSE 9000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:9000/health || exit 1
 
-# Start command with proper error handling
-CMD ["sh", "-c", "node health.js & cd .medusa/server && npm install && npm run predeploy && npm run start"] 
+# Start command using the shell script
+CMD ["sh", "-c", "node health.js & ./start.sh"] 
