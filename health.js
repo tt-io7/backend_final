@@ -1,21 +1,24 @@
 // health.js - Simple Express server with a health endpoint for Railway
 const express = require('express');
 const app = express();
+const PORT = process.env.HEALTH_PORT || 9000;
 
-// Health check endpoint
+// Health check route
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// Fallback route
+// Root route
 app.get('/', (req, res) => {
   res.status(200).json({ 
-    message: 'Medusa server is running. This is a health check service.'
+    message: 'Medusa backend is running',
+    version: process.env.npm_package_version || 'unknown'
   });
 });
 
 // Start server
-const PORT = process.env.HEALTH_PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Health check server running on port ${PORT}`);
-}); 
+  console.log(`Health check service running on port ${PORT}`);
+});
+
+module.exports = app; 

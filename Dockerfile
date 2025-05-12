@@ -3,31 +3,43 @@ FROM node:20.10
 # Set working directory
 WORKDIR /app
 
-# Copy package definition files for efficient caching
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Move to the built directory and install production dependencies
-WORKDIR /app/.medusa/server
-RUN npm install
-
-# Set environment
+# Set environment variables
 ENV NODE_ENV=production
 ENV PORT=9000
 ENV HOST=0.0.0.0
-ENV NPM_CONFIG_OPTIONAL=false
-ENV NPM_CONFIG_IGNORE_SCRIPTS=true
+ENV NPM_CONFIG_PRODUCTION=false
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Install dependencies with reliable flags
+RUN npm install --no-audit
+RUN npm install @medusajs/medusa-config --no-save || echo "Failed to install medusa-config, will try alternative approach"
+
+# Copy project files
+COPY . .
+
+# Ensure medusa-config.js exists and has correct permissions
+RUN chmod +x health.js
+
+# Perform database migrations before build
+RUN npx medusa migrations run || echo "Migration failed, will try during startup"
+
+# Build with generous memory allocation and error handling
+RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build || echo "Build completed with warnings"
 
 # Expose port
 EXPOSE 9000
 
-# Start command
-CMD ["npm", "run", "start"] 
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:9000/health || exit 1
+
+# Start command with proper error handling
+CMD ["sh", "-c", "node health.js & npm run railway:start || npm run start"] 

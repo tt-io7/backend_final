@@ -1,49 +1,30 @@
-const { defineConfig } = require('@medusajs/medusa-config')
+// This file is used for production
+console.log("Loading medusa-config.js in environment:", process.env.NODE_ENV);
 
-console.log("Using fallback medusa-config.js")
-console.log("Loaded Redis URL:", process.env.REDIS_URL)
-console.log("STORE_CORS:", process.env.STORE_CORS)
-console.log("AUTH_CORS:", process.env.AUTH_CORS)
+const { createConfig } = require('@medusajs/medusa/dist/config');
 
-const logger = {
-  warn: (msg) => console.warn(msg)
-}
-
-module.exports = defineConfig({
+/**
+ * @type {import('@medusajs/medusa').ConfigModule}
+ */
+const config = createConfig({
   projectConfig: {
-    redisOptions: {
-      retryStrategy: (times) => {
-        logger.warn(`Redis connection attempt ${times}`)
-        return Math.min(times * 50, 2000)
-      }
-    },
-    redisUrl: process.env.REDIS_URL,
-    databaseUrl: process.env.DATABASE_URL,
-    workerMode: process.env.MEDUSA_WORKER_MODE,
-    http: {
-      storeCors: process.env.STORE_CORS,
-      adminCors: process.env.ADMIN_CORS,
-      authCors: process.env.AUTH_CORS,
-      jwtSecret: process.env.JWT_SECRET || "supersecret123456789",
-      cookieSecret: process.env.COOKIE_SECRET || "supersecret123456789",
-    }
+    redis_url: process.env.REDIS_URL,
+    database_url: process.env.DATABASE_URL,
+    database_type: 'postgres',
+    store_cors: process.env.STORE_CORS,
+    admin_cors: process.env.ADMIN_CORS,
+    auth_cors: process.env.AUTH_CORS,
+    jwt_secret: process.env.JWT_SECRET || 'supersecret',
+    cookie_secret: process.env.COOKIE_SECRET || 'supersecret',
+    worker_mode: process.env.MEDUSA_WORKER_MODE || "combined",
   },
-  admin: {
-    disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
-    backendUrl: process.env.MEDUSA_BACKEND_URL,
-  },
+  plugins: [],
   featureFlags: {
-    eventBusRedisModule: true,
-    redisCache: true,
-    redisWorkflows: true
+    product_categories: true,
   },
   modules: {
-    cacheService: {
-      resolve: "@medusajs/cache-redis",
-      options: {
-        redisUrl: process.env.REDIS_URL
-      }
-    },
-    workflows: true
-  }
-}) 
+    // Add imported modules here
+  },
+});
+
+module.exports = config; 
