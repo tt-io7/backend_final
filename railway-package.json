@@ -1,0 +1,14 @@
+{
+  "name": "backend-andmore-railway",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "build": "echo 'Build completed by Railway'",
+    "start": "cd .medusa/server && npm install --no-fund --no-audit && npm run start",
+    "prebuild": "echo 'Preparing build...'",
+    "postbuild": "echo 'Build completed successfully!'"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+} 
