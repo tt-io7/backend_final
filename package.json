@@ -44,8 +44,7 @@
     "lucide-react": "^0.488.0",
     "node-fetch": "^2.7.0",
     "pg": "^8.13.0",
-    "react-icons": "^5.5.0",
-    "yarn": "^1.22.22"
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.6.1",

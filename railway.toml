@@ -1,0 +1,20 @@
+[build]
+builder = "NIXPACKS"
+
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs", "npm"]
+
+[build.nixpacksPlan.phases.install]
+cmds = ["npm install --legacy-peer-deps"]
+
+[deploy]
+startCommand = "npm run railway:start"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+
+# Set environment variables
+[variables]
+NODE_ENV = "production"
+HOST = "0.0.0.0" 
