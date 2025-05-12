@@ -1,9 +1,12 @@
 #!/bin/bash
 
-echo "Starting application..."
+# Set environment variables
+export NODE_ENV=production
 
-# Run migrations first
-npm run predeploy
+# Ensure migrations run before starting
+echo "Running database migrations..."
+npx medusa db:migrate
 
 # Start the application
-npm run start 
+echo "Starting Medusa server..."
+npx medusa start 
