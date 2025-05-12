@@ -1,31 +1,31 @@
-# Use Node.js LTS version
-FROM node:20
+FROM node:20.4-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files for install
 COPY package*.json ./
+COPY .npmrc ./
 
-# Create .npmrc with necessary settings
-RUN echo "legacy-peer-deps=true" > .npmrc && \
-    echo "engine-strict=false" >> .npmrc
+# Add build dependencies and tools
+RUN apk add --no-cache python3 make g++ git
 
-# Install dependencies with basic npm install
-RUN npm install
+# Install dependencies
+RUN npm ci --legacy-peer-deps || npm install --no-audit --legacy-peer-deps
 
-# Copy the rest of the application
+# Copy all files
 COPY . .
 
 # Build the application
 RUN npm run build
 
-# Set environment variables
+# Set environment
 ENV NODE_ENV=production
 ENV PORT=9000
+ENV HOST=0.0.0.0
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 9000
 
-# Run the application using our railway:start script
-CMD npm run railway:start 
+# Set the command to run
+CMD ["npm", "run", "railway:start"] 

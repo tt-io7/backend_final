@@ -1,10 +1,10 @@
 [build]
-skipBuild = false
+builder = "DOCKERFILE"
+dockerfile = "Dockerfile"
 
 [deploy]
-startCommand = "cd .medusa/server && npm install --no-fund --no-audit && npm run start"
 healthcheckPath = "/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
