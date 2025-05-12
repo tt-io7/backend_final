@@ -1,0 +1,27 @@
+FROM node:20.6
+
+# Set working directory
+WORKDIR /app
+
+# Copy files
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Build the application
+RUN npm run build
+
+# Install dependencies in build directory
+RUN cd .medusa/server && npm install
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=9000
+ENV HOST=0.0.0.0
+
+# Expose port
+EXPOSE 9000
+
+# Start command
+CMD cd .medusa/server && npm run start 

@@ -10,14 +10,16 @@ COPY .npmrc ./
 # Add build dependencies and tools
 RUN apk add --no-cache python3 make g++ git curl bash
 
-# Install SWC binaries and dependencies
+# Set npm config
 RUN npm config set platform linux && \
     npm config set architecture x64 && \
-    npm config set omit optional && \
-    npm i -g @swc/cli @swc/core ts-node typescript
+    npm config set omit optional
 
 # Install dependencies with platform-specific fixes
 RUN npm ci --no-optional || npm install --no-audit --no-optional
+
+# Install build tools locally instead of globally
+RUN npm install --no-save @swc/cli @swc/core ts-node typescript
 
 # Copy all files
 COPY . .
