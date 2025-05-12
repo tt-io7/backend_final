@@ -27,7 +27,6 @@ build
 .medusamedusa-admin/
 
 # Exclude embedded git repositories
-medusa-admin/
 storefront/
 
 # Exclude node_modules in storeee
