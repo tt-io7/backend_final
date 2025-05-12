@@ -5,7 +5,7 @@
     "dockerfile": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "npm run predeploy && npm run start",
+    "startCommand": "cd .medusa/server && npm install && npm run predeploy && npm run start",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",

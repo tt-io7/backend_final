@@ -18,7 +18,7 @@
     "start": "medusa start",
     "dev": "medusa develop",
     "predeploy": "medusa db:migrate",
-    "railway:start": "npm run predeploy && npm run start",
+    "railway:start": "cd .medusa/server && npm install && npm run predeploy && npm run start",
     "railway:install": "npm install",
     "postinstall": "npm install @medusajs/medusa-config || true",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",

@@ -42,4 +42,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:9000/health || exit 1
 
 # Start command with proper error handling
-CMD ["sh", "-c", "node health.js & npm run railway:start || npm run start"] 
+CMD ["sh", "-c", "node health.js & cd .medusa/server && npm install && npm run predeploy && npm run start"] 
