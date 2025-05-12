@@ -1,4 +1,4 @@
-FROM node:20.4-alpine
+FROM node:20.6-alpine
 
 # Set working directory
 WORKDIR /app
@@ -10,8 +10,11 @@ COPY .npmrc ./
 # Add build dependencies and tools
 RUN apk add --no-cache python3 make g++ git
 
-# Install dependencies
-RUN npm ci --legacy-peer-deps || npm install --no-audit --legacy-peer-deps
+# Install dependencies with platform-specific fixes
+RUN npm config set platform linux && \
+    npm config set architecture x64 && \
+    npm config set omit optional && \
+    npm ci --no-optional --ignore-scripts || npm install --no-audit --no-optional --ignore-scripts
 
 # Copy all files
 COPY . .

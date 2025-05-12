@@ -1,0 +1,8 @@
+**/node_modules/.bin/
+**/*-win32-*
+**/*-darwin-*
+**/win32
+**/darwin
+**/*.log
+.git
+.github 
