@@ -3,25 +3,31 @@ FROM node:20.6
 # Set working directory
 WORKDIR /app
 
-# Copy files
-COPY . .
-
-# Install dependencies
-RUN npm install
-
-# Build the application
-RUN npm run build
-
-# Install dependencies in build directory
-RUN cd .medusa/server && npm install
-
-# Set environment variables
+# Set environment
 ENV NODE_ENV=production
 ENV PORT=9000
 ENV HOST=0.0.0.0
+ENV NPM_CONFIG_OPTIONAL=false
+ENV NPM_CONFIG_IGNORE_SCRIPTS=true
+
+# Copy package files first (for better caching)
+COPY package*.json .npmrc* ./
+
+# Install dependencies
+RUN npm install --omit=dev
+
+# Copy remaining files
+COPY . .
+
+# Build the application
+RUN npx medusa build
+
+# Move to the built directory and install production dependencies
+WORKDIR /app/.medusa/server
+RUN npm install --omit=dev
 
 # Expose port
 EXPOSE 9000
 
-# Start command
-CMD cd .medusa/server && npm run start 
+# Start command for production
+CMD ["npm", "start"] 
