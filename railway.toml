@@ -5,6 +5,7 @@ dockerfile = "Dockerfile"
 [deploy]
 startCommand = "sh start-medusa.sh"
 healthcheckPath = "/health"
+healthcheckPort = 8000
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 
@@ -12,6 +13,7 @@ restartPolicyType = "ON_FAILURE"
 NODE_ENV = "production"
 HOST = "0.0.0.0"
 PORT = "9000"
+HEALTH_PORT = "8000"
 DATABASE_TYPE = "postgres"
 MEDUSA_FF_PRODUCT_CATEGORIES = "true"
 NPM_CONFIG_OPTIONAL = "false"

@@ -24,12 +24,12 @@ RUN npx medusa build || echo "Build completed with warnings"
 # Ensure build directory exists and create the production structure
 RUN mkdir -p .medusa/server
 
-# Expose the port
-EXPOSE 9000
+# Expose the main application port and health check port
+EXPOSE 9000 8000
 
 # Set environment variable
 ENV NODE_ENV=production
 
 # Set the entry command following Medusa docs
-# Use node to run the built application
-CMD ["node", ".medusa/server/main.js"] 
+# Use the start script to run both servers
+CMD ["sh", "start-medusa.sh"] 

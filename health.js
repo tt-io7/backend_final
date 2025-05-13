@@ -65,4 +65,53 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-module.exports = app; 
+module.exports = app;
+
+// Standalone health check server
+const express = require('express');
+const http = require('http');
+const healthApp = express();
+const healthPort = process.env.HEALTH_PORT || 8000; // Use different port from main app
+
+// Log environment for debugging
+console.log('Health server starting with environment:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+console.log('REDIS_URL exists:', !!process.env.REDIS_URL);
+
+// Health check endpoint
+healthApp.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'unknown',
+    version: require('./package.json').version
+  });
+});
+
+// Also handle root path
+healthApp.get('/', (req, res) => {
+  res.status(200).json({
+    service: 'Medusa Backend Health Monitor',
+    status: 'ok',
+    endpoints: {
+      health: '/health'
+    },
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Start the server on a separate port
+const healthServer = http.createServer(healthApp);
+healthServer.listen(healthPort, '0.0.0.0', () => {
+  console.log(`Health check server is running on port ${healthPort}`);
+});
+
+// Keep the process running even if there's an error
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+}); 
