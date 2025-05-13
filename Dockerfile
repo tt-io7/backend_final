@@ -8,7 +8,10 @@ RUN apk add --no-cache python3 make g++
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install all dependencies
+# Remove the problematic dependency before install
+RUN sed -i '/medusa-config/d' package.json
+
+# Install dependencies
 RUN npm install --production=false
 
 # Copy application files

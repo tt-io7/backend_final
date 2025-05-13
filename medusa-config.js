@@ -1,7 +1,17 @@
 // This file is used for production
 console.log("Loading medusa-config.js in environment:", process.env.NODE_ENV);
 
-const { defineConfig } = require('@medusajs/medusa-config')
+let defineConfig;
+try {
+  // Try the new package first
+  const medusaConfig = require('@medusajs/medusa-config');
+  defineConfig = medusaConfig.defineConfig;
+} catch (e) {
+  console.log("Using fallback config method");
+  // Fall back to the old method if package not found
+  const { createConfig } = require('@medusajs/medusa/dist/config');
+  defineConfig = createConfig;
+}
 
 /**
  * @type {import('@medusajs/medusa').ConfigModule}
