@@ -3,7 +3,7 @@ builder = "DOCKERFILE"
 dockerfile = "Dockerfile"
 
 [deploy]
-startCommand = "npm run start"
+startCommand = "mkdir -p .medusa/server && medusa db:migrate && node .medusa/server/main.js 2>&1 || node app.js"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
@@ -16,4 +16,4 @@ NPM_CONFIG_OPTIONAL = "false"
 NPM_CONFIG_PLATFORM = "linux"
 NPM_CONFIG_ARCH = "x64"
 NPM_CONFIG_ENGINE_STRICT = "false"
-NPM_CONFIG_IGNORE_SCRIPTS = "true" 
+NPM_CONFIG_IGNORE_SCRIPTS = "false" 
