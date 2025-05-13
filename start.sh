@@ -1,31 +1,27 @@
 #!/bin/sh
+set -e
 
-# Start the health check service in the background
-echo "Starting health check service..."
-node /app/health.js &
+# Print environment for debugging (excluding secrets)
+echo "NODE_ENV: $NODE_ENV"
+echo "DATABASE_TYPE: $DATABASE_TYPE"
+echo "REDIS_URL exists: $(if [ -n "$REDIS_URL" ]; then echo "yes"; else echo "no"; fi)"
+echo "DATABASE_URL exists: $(if [ -n "$DATABASE_URL" ]; then echo "yes"; else echo "no"; fi)"
 
-# Wait a moment for health service to start
-sleep 5
-
-# Create necessary directories in the built output
-echo "Creating necessary directories..."
-mkdir -p /app/.medusa/server/src/utils
-
-# Copy the logger.js file to the built directory
-echo "Copying logger file..."
-cp /app/src/utils/logger.js /app/.medusa/server/src/utils/
-
-# Navigate to the built directory
-cd .medusa/server || { echo "Failed to cd into .medusa/server"; exit 1; }
-
-# Install dependencies
-echo "Installing dependencies..."
-npm install
+# Ensure medusa-config.js is found
+if [ ! -f "medusa-config.js" ] && [ ! -f "medusa-config.ts" ]; then
+  echo "Error: medusa-config.js or medusa-config.ts not found!"
+  exit 1
+fi
 
 # Run migrations
-echo "Running migrations..."
-npm run predeploy
+echo "Running database migrations..."
+npx medusa migrations run || echo "Migration failed, will try to continue"
 
-# Start the Medusa server
+# Start the server
 echo "Starting Medusa server..."
-npm run start 
+if [ -d ".medusa/server" ]; then
+  node .medusa/server/main.js
+else
+  echo "Error: Built server not found at .medusa/server"
+  echo "Trying to start with medusa CLI as fallback..."
+  npx medusa start 
