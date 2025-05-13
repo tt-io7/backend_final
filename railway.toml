@@ -2,19 +2,11 @@
 builder = "DOCKERFILE"
 dockerfile = "Dockerfile"
 
-[build.nixpacksPlan.phases.setup]
-nixPkgs = ["nodejs", "npm"]
-
-[build.nixpacksPlan.phases.install]
-cmds = ["npm install --no-optional --ignore-scripts --no-fund --no-audit"]
-
 [deploy]
-startCommand = "./start.sh"
+startCommand = "npm run start"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
-healthcheckInterval = 30
-restartPolicyMaxRetries = 10
 
 [variables]
 NODE_ENV = "production"

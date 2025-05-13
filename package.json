@@ -15,10 +15,11 @@
   "scripts": {
     "build": "medusa build",
     "seed": "medusa exec ./src/scripts/seed.ts",
-    "start": "node .medusa/server/main.js",
+    "start": "medusa db:migrate && node .medusa/server/main.js",
     "dev": "medusa develop",
     "predeploy": "medusa db:migrate",
-    "railway:start": "./start.sh",
+    "prestart": "medusa db:migrate",
+    "railway": "node .medusa/server/main.js",
     "railway:install": "npm install --production=false",
     "postinstall": "npm install @medusajs/medusa-config || echo 'Failed to install medusa-config'",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
